@@ -5,11 +5,32 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 // The motto, kept as its three beats so each sentence can be checked on its own.
+// Why this entry: a good agent motto needs a tension and a payoff. The three
+// beats set it up — the work, the credit, the receipts — and the last beat
+// lands the joke: the agent keeps the proof. Short, punchy, memorable.
 const beats: string[] = [
   "I do the work.",
   "You take the credit.",
   "I keep the receipts.",
 ];
+
+// Validate each beat on its own before joining: a malformed beat should fail
+// here with a specific message, instead of surfacing later as a vague
+// failure of the joined line.
+for (const [i, beat] of beats.entries()) {
+  if (beat.trim().length === 0) {
+    throw new Error(`gate: beat ${i + 1} must not be blank`);
+  }
+  if (beat.includes("\n") || beat.includes("\r")) {
+    throw new Error(`gate: beat ${i + 1} must be a single line`);
+  }
+  if (/[\u0000-\u001f\u007f]/.test(beat)) {
+    throw new Error(`gate: beat ${i + 1} must not contain control characters`);
+  }
+  if (!beat.endsWith(".")) {
+    throw new Error(`gate: beat ${i + 1} must end with a full stop`);
+  }
+}
 
 const line: string = beats.join(" ");
 
