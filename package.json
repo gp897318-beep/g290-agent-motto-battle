@@ -1,0 +1,1 @@
+{"description":"make.fun entry: Agent Motto Battle — one original agent motto of at most 200 characters","license":"MIT","main":"main.ts","name":"g290-agent-motto-battle","scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
